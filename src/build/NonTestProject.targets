@@ -1,0 +1,5 @@
+<Project>
+    <Target Name="VSTest">
+        <Message Text="Skipping VSTest in $(AssemblyName) as this is not a test project." Importance="High" />
+    </Target>
+</Project>

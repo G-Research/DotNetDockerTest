@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <Features>pdb-path-determinism</Features>
+    <PathMap>$(MSBuildThisFileDirectory)=E:/code/DotNetDockerTest</PathMap>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artefacts</PackageOutputPath>
+    <DockerTestImage>docker.artifactory.uberit.net/microsoft/dotnet:2.1.402-sdk-alpine3.7</DockerTestImage>
+    <TestOnDocker>true</TestOnDocker>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Use GitVersioning for nuget packages -->
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.179" PrivateAssets="All"/>
+  </ItemGroup>
+</Project>

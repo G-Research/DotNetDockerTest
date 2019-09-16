@@ -1,0 +1,4 @@
+<Project>     
+  <Import Project="$(MSBuildThisFileDirectory)/NonTestProject.targets" Condition="'$(IsTestProject)' != 'true'" />
+  <Import Project="$(MSBuildThisFileDirectory)/TestsOnDocker.targets" Condition="'$(TestOnDocker)' == 'true' AND '$(IsTestProject)' == 'true'"/>
+</Project>

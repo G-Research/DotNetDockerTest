@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>DotNetDockerTest</id>
+        <version>$Version$</version>
+        <authors>G-Research</authors>
+        <owners>G-Research</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Project to enable the running of unit tests on Docker on the command line.</description>
+    </metadata>
+    <files>
+        <file src="build\*.targets" target="build" />
+        <file src="lib\netstandard2.0\*.*" target="lib/netstandard2.0" />
+    </files>
+</package>
