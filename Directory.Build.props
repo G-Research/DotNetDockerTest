@@ -4,7 +4,7 @@
     <Features>pdb-path-determinism</Features>
     <PathMap>$(MSBuildThisFileDirectory)=E:/code/DotNetDockerTest</PathMap>
     <PackageOutputPath>$(MSBuildThisFileDirectory)artefacts</PackageOutputPath>
-    <DockerTestImage>microsoft/dotnet:2.1.402-sdk-alpine3.7</DockerTestImage>
+    <DockerTestImage>mcr.microsoft.com/dotnet/core/sdk:2.1.802-alpine3.9</DockerTestImage>
     <TestOnDocker>true</TestOnDocker>
   </PropertyGroup>
   <ItemGroup>
