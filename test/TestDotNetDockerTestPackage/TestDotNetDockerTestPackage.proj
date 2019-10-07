@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.Build.NoTargets/1.0.40">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="TestPackageReference" DependsOnTargets="GetBuildVersion" AfterTargets="Build">
+
+    <Message Text="NuGetPacakgeRoot='$(NuGetPackageRoot)'" Importance="High" />
+
+    <!-- Delete old version of the DotNetDockerTest package -->
+    <RemoveDir Directories="$(NuGetPackageRoot)/dotnetdockertest" />
+
+    <Message Text="DotNetDockerTestPackageVersion=$(Version)" Importance="High" />
+
+    <Exec Command="dotnet build /p:DotNetDockerTestPackageVersion=$(Version) .\TestDotNetDockerTestPackage.csproj" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.NoTargets" Version="1.0.40" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,14 @@
+﻿<Project>
+  <Target Name="VSTest">
+
+    <Error Condition="'$(TargetFrameworks)' != ''" Text="This target should not be called when multi-targeting." />
+    <Message Text="Going to run tests for '$(MSBuildProjectFullPath)'. TargetFramework='$(TargetFramework)' TargetFrameworkIdentifier='$(TargetFrameworkIdentifier)' Target='$(TargetAssembly)'" Importance="High" />
+
+    <MSBuild Projects="$(MSBuildProjectFile)"
+             Targets="_RunTheTests"
+             Properties="VSTestNoBuild=true;Verbosity=normal;VSTestVerbosity=normal"
+             ContinueOnError="ErrorAndStop">
+        <Output ItemName="InnerOutput" TaskParameter="TargetOutputs" />
+    </MSBuild>
+  </Target>
+</Project>

@@ -1,0 +1,99 @@
+<Project>
+  <PropertyGroup>
+    <InternalLibrary>$(MSBuildThisFileDirectory)../lib/netstandard2.0/DotNetDockerTest.dll</InternalLibrary>
+    <Newline>%0A%0D</Newline>
+    <Tab>%09</Tab>
+    <VSTestTaskAssemblyFile Condition="$(VSTestTaskAssemblyFile) == ''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.Build.dll</VSTestTaskAssemblyFile>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <InnerVSTestTargets>MultiTargetedVSTest</InnerVSTestTargets>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Microsoft.TestPlatform.Build.Tasks.VSTestLogsTask" AssemblyFile="$(VSTestTaskAssemblyFile)" />
+  <UsingTask TaskName="DockerVSTestTask" AssemblyFile="$(InternalLibrary)" />
+
+  <!-- Import this target if we are not multi-targeted-->
+  <Import Condition="'$(TargetFrameworks)' == ''" Project="$(MSBuildThisFileDirectory)OverrideVSTest.targets"/>
+
+  <Target Name="MultiTargetedVSTest">
+
+    <Message Text="Going to run tests for '$(MSBuildProjectFullPath)'. TargetFramework='$(TargetFramework)' TargetFrameworkIdentifier='$(TargetFrameworkIdentifier)' Target='$(TargetAssembly)'" Importance="High" />
+
+    <MSBuild Projects="$(MSBuildProjectFile)"
+         Targets="_RunTheTests"
+         Properties="VSTestNoBuild=true;Verbosity=normal;VSTestVerbosity=normal"
+         ContinueOnError="ErrorAndContinue">
+      <Output ItemName="InnerOutput" TaskParameter="TargetOutputs" />
+    </MSBuild>
+  </Target>
+
+  <Target Name="_RunTheTests">
+
+    <CallTarget Targets="Validate" />
+    <CallTarget Targets="PreTestPublish" />
+
+    <PropertyGroup>
+      <PublishDirectory>$(MSBuildProjectDirectory)/$(PublishDir)</PublishDirectory>
+      <TargetAssembly>$(AssemblyName)$(TargetExt)</TargetAssembly>
+    </PropertyGroup>
+
+    <Message Text="Running tests for ProjectPath='$(ProjectPath)'. PublishDirectory='$(PublishDirectory)' TargetAssembly='$(TargetAssembly)'." Importance="High" />
+
+    <CallTarget Targets="ShowCallOfDockerVSTestTaskWithParameter" />
+
+    <DockerVSTestTask
+      TestFileFullPath="$(TargetAssembly)"
+      VSTestSetting="$(VSTestSetting)"
+      VSTestTestAdapterPath="$(VSTestTestAdapterPath)"
+      VSTestFramework="$(TargetFrameworkMoniker)"
+      VSTestPlatform="$(PlatformTarget)"
+      VSTestTestCaseFilter="$(VSTestTestCaseFilter)"
+      VSTestLogger="$(VSTestLogger)"
+      VSTestListTests="$(VSTestListTests)"
+      VSTestDiag="$(VSTestDiag)"
+      VSTestCLIRunSettings="$(VSTestCLIRunSettings)"
+      VSTestResultsDirectory="$(VSTestResultsDirectory)"
+      VSTestVerbosity="$(VSTestVerbosity)"
+      VSTestCollect="$(VSTestCollect)"
+      VSTestBlame="$(VSTestBlame)"
+      VSTestTraceDataCollectorDirectoryPath="$(TraceDataCollectorDirectoryPath)"
+      VSTestNoLogo="$(VSTestNoLogo)"
+      PublishFolder="$(PublishDirectory)"
+      DockerImage="$(DockerTestImage)"
+      Condition="'$(IsTestProject)' == 'true'"/>
+  </Target>
+
+  <Target Name="Validate">
+    <Message Text="Validating '$(MSBuildProjectFullPath)' TargetFramework='$(TargetFramework)' for DockerTesting" Importance="High" />
+    <Error Condition="'$(TargetFrameworkIdentifier)' != '.NETCoreApp'" Text="Docker testing only supports assemblies targeting .NETCoreApp. Current framework = '$(TargetFramework)'" />
+  </Target>
+
+  <Target Name="PreTestPublish">
+    <Message Text="Publishing $(MSBuildProjectFullPath) with parameterts: Configuration=$(Configuration);RuntimeIdentifier=$(RuntimeIdentifier);SelfContained=$(SelfContained);TargetFramework=$(TargetFramework)" Importance="High" />
+    <MSBuild Projects="$(MSBuildProjectFullPath)"
+             Properties="Configuration=$(Configuration);RuntimeIdentifier=$(RuntimeIdentifier);SelfContained=$(SelfContained);TargetFramework=$(TargetFramework)"
+             Targets="Publish"
+             BuildInParallel="true" />
+  </Target>
+
+  <Target Name="ShowCallOfDockerVSTestTaskWithParameter">
+    <Message Text="Calling task Microsoft.TestPlatform.Build.Tasks.VSTestTask with folnormaling parameter..." Importance="normal" />
+    <Message Text="TestFileFullPath = $(TargetPath)" Importance="normal" />
+    <Message Text="VSTestSetting = $(VSTestSetting)" Importance="normal" />
+    <Message Text="VSTestTestAdapterPath = $(VSTestTestAdapterPath)" Importance="normal" />
+    <Message Text="VSTestFramework = $(TargetFrameworkMoniker)" Importance="normal" />
+    <Message Text="VSTestPlatform = $(PlatformTarget)" Importance="normal" />
+    <Message Text="VSTestTestCaseFilter = $(VSTestTestCaseFilter)" Importance="normal" />
+    <Message Text="VSTestLogger = $(VSTestLogger)" Importance="normal" />
+    <Message Text="VSTestListTests = $(VSTestListTests)" Importance="normal" />
+    <Message Text="VSTestDiag = $(VSTestDiag)" Importance="normal" />
+    <Message Text="VSTestCLIRunSettings = $(VSTestCLIRunSettings)" Importance="normal" />
+    <Message Text="VSTestResultsDirectory = $(VSTestResultsDirectory)" Importance="normal" />
+    <Message Text="VSTestConsolePath = $(VSTestConsolePath)" Importance="normal" />
+    <Message Text="VSTestVerbosity = $(VSTestVerbosity)" Importance="normal" />
+    <Message Text="VSTestCollect = $(VSTestCollect)" Importance="normal" />
+    <Message Text="VSTestBlame = $(VSTestBlame)" Importance="normal" />
+    <Message Text="VSTestTraceDataCollectorDirectoryPath = $(TraceDataCollectorDirectoryPath)" Importance="normal" />
+    <Message Text="VSTestNoLogo = $(VSTestNoLogo)" Importance="normal" />
+  </Target>
+
+</Project>
