@@ -4,11 +4,11 @@
     <Features>pdb-path-determinism</Features>
     <PathMap>$(MSBuildThisFileDirectory)=E:/code/DotNetDockerTest</PathMap>
     <PackageOutputPath>$(MSBuildThisFileDirectory)artefacts</PackageOutputPath>
-    <DockerTestImage>mcr.microsoft.com/dotnet/core/sdk:2.1.802-alpine3.9</DockerTestImage>
+    <DockerTestImage>mcr.microsoft.com/dotnet/sdk:6.0</DockerTestImage>
     <TestOnDocker>true</TestOnDocker>
   </PropertyGroup>
+
   <ItemGroup>
-    <!-- Use GitVersioning for nuget packages -->
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.179" PrivateAssets="All"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="All" />
   </ItemGroup>
 </Project>

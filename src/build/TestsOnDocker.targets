@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
-    <InternalLibrary>$(MSBuildThisFileDirectory)../lib/netstandard2.0/DotNetDockerTest.dll</InternalLibrary>
+    <DNDTVersionFolder Condition="'$(NETCoreSdkVersion)' &gt;= '5.0.0'">net5.0</DNDTVersionFolder>
+    <DNDTVersionFolder Condition="'$(NETCoreSdkVersion)' &gt;= '6.0.0'">net6.0</DNDTVersionFolder>
+    <InternalLibrary>$(MSBuildThisFileDirectory)../lib/$(DNDTVersionFolder)/DotNetDockerTest.dll</InternalLibrary>
     <Newline>%0A%0D</Newline>
     <Tab>%09</Tab>
     <VSTestTaskAssemblyFile Condition="$(VSTestTaskAssemblyFile) == ''">$(MSBuildExtensionsPath)\Microsoft.TestPlatform.Build.dll</VSTestTaskAssemblyFile>
@@ -16,7 +18,7 @@
 
   <Target Name="MultiTargetedVSTest">
 
-    <Message Text="Going to run tests for '$(MSBuildProjectFullPath)'. TargetFramework='$(TargetFramework)' TargetFrameworkIdentifier='$(TargetFrameworkIdentifier)' Target='$(TargetAssembly)'" Importance="High" />
+    <Message Text="Going to run tests for '$(MSBuildProjectFullPath)'. TargetFramework='$(TargetFramework)' TargetFrameworkIdentifier='$(TargetFrameworkIdentifier)' Target='$(TargetAssembly)'" Importance="Normal" />
 
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="_RunTheTests"
@@ -29,19 +31,22 @@
   <Target Name="_RunTheTests">
 
     <CallTarget Targets="Validate" />
-    <CallTarget Targets="PreTestPublish" />
+    <CallTarget Targets="PreTestPublish" Condition="'$(PublishTests)' == 'true'" />
 
+    <!-- TODO To run code coverage you often need to publish the tests - e.g. coverlet it would be nice if this just worked -->
     <PropertyGroup>
       <PublishDirectory>$(MSBuildProjectDirectory)/$(PublishDir)</PublishDirectory>
       <TargetAssembly>$(AssemblyName)$(TargetExt)</TargetAssembly>
+      <DotNetDockerTestRunDir>$(MSBuildProjectDirectory)/$(OutDir)</DotNetDockerTestRunDir>
+      <DotNetDockerTestRunDir Condition="'$(PublishTests)' == 'true'">$(PublishDirectory)</DotNetDockerTestRunDir>
     </PropertyGroup>
 
-    <Message Text="Running tests for ProjectPath='$(ProjectPath)'. PublishDirectory='$(PublishDirectory)' TargetAssembly='$(TargetAssembly)'." Importance="High" />
+    <Message Text="Running tests for ProjectPath='$(ProjectPath)'. TestDir='$(DotNetDockerTestRunDir)' TargetAssembly='$(TargetAssembly)'." Importance="Normal" />
 
     <CallTarget Targets="ShowCallOfDockerVSTestTaskWithParameter" />
 
     <DockerVSTestTask
-      TestFileFullPath="$(TargetAssembly)"
+      TargetAssembly="$(TargetAssembly)"
       VSTestSetting="$(VSTestSetting)"
       VSTestTestAdapterPath="$(VSTestTestAdapterPath)"
       VSTestFramework="$(TargetFrameworkMoniker)"
@@ -57,13 +62,13 @@
       VSTestBlame="$(VSTestBlame)"
       VSTestTraceDataCollectorDirectoryPath="$(TraceDataCollectorDirectoryPath)"
       VSTestNoLogo="$(VSTestNoLogo)"
-      PublishFolder="$(PublishDirectory)"
+      TestDirectory="$(DotNetDockerTestRunDir)"
       DockerImage="$(DockerTestImage)"
       Condition="'$(IsTestProject)' == 'true'"/>
   </Target>
 
   <Target Name="Validate">
-    <Message Text="Validating '$(MSBuildProjectFullPath)' TargetFramework='$(TargetFramework)' for DockerTesting" Importance="High" />
+    <Message Text="Validating '$(MSBuildProjectFullPath)' TargetFramework='$(TargetFramework)' for DockerTesting" Importance="Normal" />
     <Error Condition="'$(TargetFrameworkIdentifier)' != '.NETCoreApp'" Text="Docker testing only supports assemblies targeting .NETCoreApp. Current framework = '$(TargetFramework)'" />
   </Target>
 

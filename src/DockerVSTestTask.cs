@@ -13,7 +13,7 @@ namespace DockerTesting
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private const string vsTestAppName = "vstest.console.dll";
 
-        public string TestFileFullPath
+        public string TargetAssembly
         {
             get;
             set;
@@ -110,7 +110,7 @@ namespace DockerTesting
         }
 
         [Required]
-        public string PublishFolder
+        public string TestDirectory
         {
             get;
             set;
@@ -129,7 +129,7 @@ namespace DockerTesting
             set;
         }
 
-        public string TestDirectory => "/scratch";
+        public string TestMountDirectory => "/scratch";
 
         public void WaitForDebugger()
         {
@@ -168,7 +168,7 @@ namespace DockerTesting
 
                 if (processResult.ExitCode != 0)
                 {
-                    Log.LogError($"Test execution of {TestFileFullPath} has failed. ExitCode: {processResult.ExitCode}");
+                    Log.LogError($"Test execution of {TargetAssembly} has failed. ExitCode: {processResult.ExitCode}");
                     return false;
                 }
             }
@@ -190,7 +190,17 @@ namespace DockerTesting
         {
             string dotnetArg = $"dotnet /usr/share/dotnet/sdk/$DOTNET_SDK_VERSION/{vsTestAppName} {String.Join(" ", CreateArgument())}";
 
-            string dockerArguments = $@"run -v ""{PublishFolder}:{TestDirectory}"" --entrypoint sh {DockerImage} -c ""{dotnetArg}""";
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+            {
+                TestDirectory = TestDirectory.Replace('\\', '/');
+            }
+            else
+            {
+                TestDirectory = System.IO.Path.GetFullPath(TestDirectory);
+            }
+
+            string dockerArguments = $@"run --rm -v ""{TestDirectory}:{TestMountDirectory}"" --entrypoint sh {DockerImage} -c ""{dotnetArg}""";
+            Log.LogMessage(MessageImportance.Normal, "Calling 'docker' with '{0}'", dockerArguments);
             return dockerArguments;
         }
 
@@ -284,13 +294,13 @@ namespace DockerTesting
                 allArgs.Add("--Diag:" + ArgumentEscaper.HandleEscapeSequenceInArgForProcessStart(this.VSTestDiag));
             }
 
-            if (string.IsNullOrEmpty(this.TestFileFullPath))
+            if (string.IsNullOrEmpty(this.TargetAssembly))
             {
                 this.Log.LogError("Test file path cannot be empty or null.");
             }
             else
             {
-                allArgs.Add(ArgumentEscaper.HandleEscapeSequenceInArgForProcessStart($"{TestDirectory}/{TestFileFullPath}"));
+                allArgs.Add(ArgumentEscaper.HandleEscapeSequenceInArgForProcessStart($"{TestMountDirectory}/{TargetAssembly}"));
             }
 
             // Console logger was not specified by user, but verbosity was, hence add default console logger with verbosity as specified

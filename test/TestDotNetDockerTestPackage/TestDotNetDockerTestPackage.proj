@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.Build.NoTargets/1.0.40">
+<Project Sdk="Microsoft.Build.NoTargets/3.3.0">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateAssemblyVersionInfo>false</GenerateAssemblyVersionInfo>
   </PropertyGroup>
 
   <Target Name="TestPackageReference" DependsOnTargets="GetBuildVersion" AfterTargets="Build">
@@ -17,7 +18,7 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.NoTargets" Version="1.0.40" />
+    <PackageReference Include="Microsoft.Build.NoTargets" Version="3.3.0" />
   </ItemGroup>
 
 </Project>

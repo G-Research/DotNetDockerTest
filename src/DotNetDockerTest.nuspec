@@ -10,6 +10,8 @@
     </metadata>
     <files>
         <file src="build\*.targets" target="build" />
-        <file src="lib\netstandard2.0\*.*" target="lib/netstandard2.0" />
+        <file src="lib\netcoreapp2.1\*.*" target="lib/netcoreapp2.1" />
+        <file src="lib\net5.0\*.*" target="lib/net5.0" />
+        <file src="lib\net6.0\*.*" target="lib/net6.0" />
     </files>
 </package>

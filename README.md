@@ -1,5 +1,7 @@
 # DotNetDockerTest
 
+![.NET Core](https://github.com/LordNibbler274/DotNetDockerTest/workflows/.NET%20Core/badge.svg)
+
 A library which enables the running of dotnet tests in a docker container
 
 ## Usage

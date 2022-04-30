@@ -35,7 +35,12 @@ namespace DockerTesting
             _logger = logger;
         }
 
-        public async Task<ProcessResult> Run(string command, string arguments, CancellationToken cancellationToken, bool useShell = false, string workingDirectory = "")
+        public async Task<ProcessResult> Run(
+            string command, 
+            string arguments, 
+            CancellationToken cancellationToken, 
+            bool useShell = false, 
+            string workingDirectory = "")
         {
             SemaphoreSlim semaphore = new SemaphoreSlim(0);
 
