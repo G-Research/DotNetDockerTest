@@ -28,5 +28,7 @@ A library which enables the running of dotnet tests in a docker container
 Then When running tests specify:
 
 ```powershell
-dotnet test /p:TestOnDocker
+dotnet test /p:TestOnDocker=true
 ```
+
+Or specify `TestOnDocker` msbuild property in your project file.
