@@ -1,6 +1,6 @@
 # DotNetDockerTest
 
-![.NET Core](https://github.com/LordNibbler274/DotNetDockerTest/workflows/.NET%20Core/badge.svg)
+[![.NET Core](https://github.com/G-Research/DotNetDockerTest/workflows/.NET%20Core/badge.svg?branch=master&event=push)](https://github.com/G-Research/DotNetDockerTest/actions/workflows/dotnetcore.yml?query=branch%3Amaster+event%3Apush)
 
 A library which enables the running of dotnet tests in a docker container
 
