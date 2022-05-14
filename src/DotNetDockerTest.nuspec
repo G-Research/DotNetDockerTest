@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
-    <metadata>
-        <id>DotNetDockerTest</id>
-        <version>$Version$</version>
-        <authors>G-Research</authors>
-        <owners>G-Research</owners>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Project to enable the running of unit tests on Docker on the command line.</description>
-    </metadata>
-    <files>
-        <file src="build\*.targets" target="build" />
-        <file src="lib\netcoreapp2.1\*.*" target="lib/netcoreapp2.1" />
-        <file src="lib\net5.0\*.*" target="lib/net5.0" />
-        <file src="lib\net6.0\*.*" target="lib/net6.0" />
-    </files>
+  <metadata>
+    <id>DotNetDockerTest</id>
+    <version>$Version$</version>
+    <authors>G-Research</authors>
+    <owners>G-Research</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Project to enable the running of unit tests on Docker on the command line.</description>
+    <dependencies>
+      <group targetFramework="net5.0" />
+      <group targetFramework="net6.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="build\*.targets" target="build" />
+    <file src="lib\net5.0\*.*" target="lib/net5.0" />
+    <file src="lib\net6.0\*.*" target="lib/net6.0" />
+  </files>
 </package>
