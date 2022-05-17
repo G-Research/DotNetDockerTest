@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <DNDTVersionFolder Condition="'$(NETCoreSdkVersion)' &gt;= '5.0.0'">net5.0</DNDTVersionFolder>
-    <DNDTVersionFolder Condition="'$(NETCoreSdkVersion)' &gt;= '6.0.0'">net6.0</DNDTVersionFolder>
+    <DNDTVersionFolder Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(NETCoreSdkVersion)', '5.0.000'))">net5.0</DNDTVersionFolder>
+    <DNDTVersionFolder Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(NETCoreSdkVersion)', '6.0.000'))">net6.0</DNDTVersionFolder>
     <InternalLibrary>$(MSBuildThisFileDirectory)../lib/$(DNDTVersionFolder)/DotNetDockerTest.dll</InternalLibrary>
     <Newline>%0A%0D</Newline>
     <Tab>%09</Tab>
