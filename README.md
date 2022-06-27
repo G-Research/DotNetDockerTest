@@ -1,5 +1,7 @@
 # DotNetDockerTest
 
+[![.NET Core](https://github.com/G-Research/DotNetDockerTest/workflows/.NET%20Core/badge.svg?branch=master&event=push)](https://github.com/G-Research/DotNetDockerTest/actions/workflows/dotnetcore.yml?query=branch%3Amaster+event%3Apush)
+
 A library which enables the running of dotnet tests in a docker container
 
 ## Usage
@@ -26,5 +28,7 @@ A library which enables the running of dotnet tests in a docker container
 Then When running tests specify:
 
 ```powershell
-dotnet test /p:TestOnDocker
+dotnet test /p:TestOnDocker=true
 ```
+
+Or specify `TestOnDocker` msbuild property in your project file.

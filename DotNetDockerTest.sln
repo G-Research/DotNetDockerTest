@@ -7,12 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDockerTest", "src\Dot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDockerTest.Test", "test\DotNetDockerTest.Test\DotNetDockerTest.Test.csproj", "{3F910B75-0CCD-4BEE-A1C1-69DC5C73C5D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDockerTest.MultiTargetTest", "test\DotNetDockerTest.Test\DotNetDockerTest.MultiTargetTest.csproj", "{888B9C82-D478-4596-9FC7-DCCCD1330228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDockerTest.MultiTargetTest", "test\DotNetDockerTest.MultiTargetTest\DotNetDockerTest.MultiTargetTest.csproj", "{888B9C82-D478-4596-9FC7-DCCCD1330228}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{E57052BA-6233-4FCB-A163-6BF79A56B8D6}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{125183F8-3FE2-45E8-A45D-DCAC927973CF}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 	EndProjectSection
 EndProject
 Global
