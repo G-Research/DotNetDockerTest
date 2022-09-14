@@ -24,6 +24,9 @@ jobs:
       run: dotnet build --configuration Release
     - name: Test with dotnet test
       run: dotnet test --configuration Release --no-build
+    - name: Nerdbank.GitVersioning
+      uses: dotnet/nbgv@v0.4.0
+    - run: echo 'NuGetPackageVersion=[${{ steps.nbgv.outputs.NuGetPackageVersion }}]'
     - name: Publish to NuGet
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-      run: dotnet nuget push artefacts/DotNetDockerTest.${GITHUB_REF#refs/tags/v}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: dotnet nuget push artefacts/DotNetDockerTest.${{ steps.nbgv.outputs.NuGetPackageVersion }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
