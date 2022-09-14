@@ -26,6 +26,7 @@ jobs:
       run: dotnet test --configuration Release --no-build
     - name: Nerdbank.GitVersioning
       uses: dotnet/nbgv@v0.4.0
+      id: nbgv
     - run: echo 'NuGetPackageVersion=[${{ steps.nbgv.outputs.NuGetPackageVersion }}]'
     - name: Publish to NuGet
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
