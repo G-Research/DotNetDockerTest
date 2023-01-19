@@ -13,6 +13,6 @@
   // Ensure you know what you are doing before adding any other ref specs here.
   "publicReleaseRefSpec": [
     "^refs/heads/master$",
-    "^refs/heads/v\\d+\\.\\d+$"
+    "^refs/tags/v\\d+\\.\\d+"
   ]
 }
