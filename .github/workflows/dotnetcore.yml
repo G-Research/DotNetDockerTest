@@ -31,4 +31,4 @@ jobs:
     - run: echo "NuGetPackageVersion=[$NBGV_NuGetPackageVersion]"
     - name: Publish to NuGet
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-      run: dotnet nuget push artefacts/DotNetDockerTest.$NBGV_NuGetPackageVersion.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "artefacts/DotNetDockerTest.$NBGV_NuGetPackageVersion.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
