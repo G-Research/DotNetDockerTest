@@ -6,6 +6,7 @@
     <PackageOutputPath>$(MSBuildThisFileDirectory)artefacts</PackageOutputPath>
     <DockerTestImage>mcr.microsoft.com/dotnet/sdk:6.0</DockerTestImage>
     <TestOnDocker>true</TestOnDocker>
+    <NoWarn>NETSDK1138</NoWarn> <!-- Currently we want to continue to support net5.0 -->
   </PropertyGroup>
 
   <ItemGroup>
