@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
 	  <DockerTestImage Condition="'$(TargetFramework)'=='net5.0'">mcr.microsoft.com/dotnet/sdk:5.0</DockerTestImage>
+    <DockerTestImage Condition="'$(TargetFramework)'=='net7.0'">mcr.microsoft.com/dotnet/sdk:7.0</DockerTestImage>
   </PropertyGroup>
 
   <ItemGroup>
