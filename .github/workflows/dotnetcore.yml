@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       with: 
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@871f041373faaad213a635d9afb62905ec029bbb # v1.10.1
       with:
         dotnet-version: |
           7.0.x
@@ -28,7 +28,7 @@ jobs:
     - name: Test with dotnet test
       run: dotnet test --configuration Release --no-build
     - name: Nerdbank.GitVersioning
-      uses: dotnet/nbgv@master
+      uses: dotnet/nbgv@705dad19ab067f12f4e9eeaa60812e01edef5d25 # v0.5.2
       with:
         setAllVars: true
     - run: echo "Package generated artefacts/DotNetDockerTest.${NBGV_NuGetPackageVersion}.nupkg"
