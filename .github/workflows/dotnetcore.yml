@@ -22,6 +22,7 @@ jobs:
         dotnet-version: |
           7.0.x
           8.0.x
+          10.0.x
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: Test with dotnet test
